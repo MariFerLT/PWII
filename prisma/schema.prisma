@@ -1,0 +1,24 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id_user          Int      @id @default(autoincrement()) // Equivalente a AUTO_INCREMENT en SQL
+  nombre_usuario   String?  @unique  // UNIQUE y puede ser NULL
+  fecha_registro   DateTime? @default(now()) // TIMESTAMP, puede ser NULL y con valor por defecto de la fecha/hora actual
+  correo           String?  @unique  // UNIQUE y puede ser NULL
+  clave            String?  // Puede ser NULL
+  rol              Int?     // Tipo INT UNSIGNED en SQL
+  fecha_nacimiento DateTime? // Equivalente a DATE en SQL, puede ser NULL
+}
