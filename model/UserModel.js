@@ -1,13 +1,13 @@
 const prisma = require('../prismaConfig'); // Cliente Prisma
 
 // Registro de usuario normal
-exports.createUser = async (nombre_usuario, correo, clave, fecha_nacimiento) => {
+exports.createUser = async (nombre_usuario, correo, clave, rol, fecha_nacimiento) => {
   return await prisma.usuario.create({
     data: {
       nombre_usuario,
       correo,
       clave,
-      rol: 2,
+      rol,
       fecha_nacimiento: new Date(fecha_nacimiento)
     },
   });
