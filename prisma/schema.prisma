@@ -13,12 +13,33 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Pelicula {
+  id_pelicula   Int      @id @default(autoincrement())
+  id_user       Int
+  usuario       Usuario  @relation("UsuarioPeliculas", fields: [id_user], references: [id_user], onDelete: Cascade) // Relación con Usuario
+  nombre        String
+  descripcion   String
+  calificacion  Float
+  miniatura     String
+  id_categoria  Int?
+  categoria     Categoria? @relation(fields: [id_categoria], references: [id_categoria])
+}
+
 model Usuario {
-  id_user          Int      @id @default(autoincrement()) // Equivalente a AUTO_INCREMENT en SQL
-  nombre_usuario   String?  @unique  // UNIQUE y puede ser NULL
-  fecha_registro   DateTime? @default(now()) // TIMESTAMP, puede ser NULL y con valor por defecto de la fecha/hora actual
-  correo           String?  @unique  // UNIQUE y puede ser NULL
-  clave            String?  // Puede ser NULL
-  rol              Int?     // Tipo INT UNSIGNED en SQL
-  fecha_nacimiento DateTime? // Equivalente a DATE en SQL, puede ser NULL
+  id_user          Int      @id @default(autoincrement())
+  nombre_usuario   String?  @unique
+  fecha_registro   DateTime? @default(now())
+  correo           String?  @unique
+  clave            String?
+  rol              Int?
+  fecha_nacimiento DateTime?
+
+  // Relación con Pelicula (uno a muchos)
+  peliculas        Pelicula[]  @relation("UsuarioPeliculas") // Asegúrate de que el nombre coincida
+}
+
+model Categoria {
+  id_categoria Int      @id @default(autoincrement())
+  nombre       String
+  peliculas    Pelicula[]
 }

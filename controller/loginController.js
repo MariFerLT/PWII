@@ -62,11 +62,9 @@ exports.login = async (req, res) => {
     }
 
     //Detecta si el usuario es admnistrador o cliente para mandarlo a su respectiva pagina
-    if (user.clave == 1) {
+
       res.json({ message: "Inicio de sesión exitoso. ¡Bienvenido administrador!" });
-    } else if (user.clave == 2) {
-        res.json({ message: "Inicio de sesión exitoso. ¡Bienvenido!" });
-    }
+
   } catch (error) {
     res.status(500).json({ message: "Error al iniciar sesion. ", error });
   }
