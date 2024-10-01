@@ -22,7 +22,15 @@ model Pelicula {
   calificacion  Float
   miniatura     String
   id_categoria  Int?
+  
+  // Relación con Categoría (uno a muchos)
   categoria     Categoria? @relation(fields: [id_categoria], references: [id_categoria])
+
+  // Relación con Comentarios (uno a muchos)
+  comentarios   Comentario[]
+
+  // Relación con Calificaciones (uno a muchos)
+  calificaciones Calificacion[]
 }
 
 model Usuario {
@@ -35,11 +43,47 @@ model Usuario {
   fecha_nacimiento DateTime?
 
   // Relación con Pelicula (uno a muchos)
-  peliculas        Pelicula[]  @relation("UsuarioPeliculas") // Asegúrate de que el nombre coincida
+  peliculas        Pelicula[]  @relation("UsuarioPeliculas")
+
+  // Relación con Comentarios (uno a muchos)
+  comentarios      Comentario[]
+
+  // Relación con Calificaciones (uno a muchos)
+  calificaciones   Calificacion[]
 }
 
 model Categoria {
   id_categoria Int      @id @default(autoincrement())
   nombre       String
+
+  // Relación con Película (uno a muchos)
   peliculas    Pelicula[]
+}
+
+model Comentario {
+  id_comentario    Int      @id @default(autoincrement())
+  comentario       String?
+  fecha_comentario DateTime @default(now())
+
+  // Relación con Usuario (muchos a uno)
+  usuario          Usuario? @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
+  id_user          Int?
+
+  // Relación con Película (muchos a uno)
+  pelicula         Pelicula? @relation(fields: [id_pelicula], references: [id_pelicula], onDelete: Cascade)
+  id_pelicula      Int?
+}
+
+model Calificacion {
+  id_calificacion     Int      @id @default(autoincrement())
+  calificacion        Float?
+  fecha_calificacion  DateTime @default(now())
+
+  // Relación con Usuario (muchos a uno)
+  usuario             Usuario  @relation(fields: [id_user], references: [id_user], onDelete: Cascade)
+  id_user             Int
+  
+  // Relación con Película (muchos a uno)
+  pelicula            Pelicula? @relation(fields: [id_pelicula], references: [id_pelicula], onDelete: Cascade)
+  id_pelicula         Int?
 }
